@@ -3,12 +3,20 @@
 # Start project in 2016-10-02
 # 1. make code layout (2016-10-02)
 # 2. add resource(player)
+# 3. add game_framework (2016.10.14)
 # Made by Gunny
 #################################################
 
-
 from pico2d import *
-import math
+import random
+import os
+import game_framework
+import title_state
+
+
+name = "MainState"
+
+
 
 # Game object class here
 
@@ -39,6 +47,28 @@ class airplane_enemy:
 
     pass
 
+def enter():
+    global boy, grass
+    boy = Boy()
+    grass = Grass()
+    pass
+
+
+def exit():
+    global boy, grass
+    del(boy)
+    del(grass)
+    pass
+
+
+def pause():
+    pass
+
+
+def resume():
+    pass
+
+
 def handle_events():
     #start var.
     global running
@@ -50,30 +80,17 @@ def handle_events():
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
+    pass
 
 
-
-# initialization code
-open_canvas()
-running = True
-player = airplane_player()
-menu = 0
+def update():
+    boy.update()
+    pass
 
 
-# game main loop code
-
-#init screen
-
-
-
-#entering game
-while running:
-    handle_events()
-    player.update()
-
-    player.draw()
+def draw():
+    clear_canvas()
+    grass.draw()
+    boy.draw()
     update_canvas()
-    delay(0.05)
-
-# finalization code
-close_canvas()
+    pass

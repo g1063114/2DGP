@@ -4,6 +4,7 @@
 # 1. make code layout (2016-10-02)
 # 2. add resource(player)
 # 3. add game_framework (2016.10.14)
+# 4. optimize1 game_framework (2016.10.17)
 # Made by Gunny
 #################################################
 

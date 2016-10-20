@@ -17,7 +17,7 @@ import title_state
 
 
 name = "MainState"
-move_scale = 1
+move_scale = 0.5
 
 
 # Game object class here
@@ -73,9 +73,24 @@ class airplane_enemy:
 class backGround:
     def __init__(self):
         #not yet!
+        self.pagePoint = 3       #scroll the page
+        self.pagePoint2 = 1
         self.image = load_image('background.png')
+        self.image2 = load_image('background.png')
     def draw(self):
-        self.image.draw(400, 300);
+        self.image.draw(400, 300 * self.pagePoint);
+        self.image2.draw(400, 300 * self.pagePoint2);
+    def update(self):
+        if self.pagePoint > -1:
+            self.pagePoint -= 0.001
+        else:
+            self.pagePoint = 3
+
+        if self.pagePoint2 > -1:
+            self.pagePoint2 -= 0.001
+        else:
+            self.pagePoint2 = 3
+        pass
     pass
 
 
@@ -173,6 +188,7 @@ def handle_events():
 
 
 def update():
+    back_ground.update()
     air_player.update()
     air_enemy.update()
     air_enemy2.update()

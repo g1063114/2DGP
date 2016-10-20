@@ -17,7 +17,7 @@ import title_state
 
 
 name = "MainState"
-
+move_scale = 1
 
 
 # Game object class here
@@ -35,9 +35,9 @@ class airplane_player:
         #next i'll add frame
         #self.frame = (self.frame + 1) & 7
         if (self.pressKey == 1) and (self.dir == 0):
-            self.x += 1
+            self.x += move_scale
         elif (self.pressKey == 1) and (self.dir == 1):
-            self.x -= 1
+            self.x -= move_scale
         pass
 
     def draw(self):
@@ -47,17 +47,23 @@ class airplane_player:
 #airplane class (enemy)
 class airplane_enemy:
     def __init__(self):
-        self.x = -50
-        self.y = -50
-        self.ownX = 0
-        self.ownY = 0
+        self.x, self.y = random.randint(-100, 800), random.randint(-100, 600)
+        self.ownX = random.randint(100, 700)
+        self.ownY = random.randint(300, 500)
+        #self.ownX = 0
+        #self.ownY = 0
         self.image = load_image('enemyBlack.png')
 
     def update(self):
         #enemy should find own place
-        if (self.x != self.ownX) and (self.y != self.ownY):
-            self.x += 0.5
-            self.y += 0.5
+        if (self.x > self.ownX):
+            self.x -= move_scale
+        elif self.x < self.ownX:
+            self.x += move_scale
+        elif self.y > self.ownY:
+            self.y -= move_scale
+        elif self.y < self.ownY:
+            self.y += move_scale
         pass
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -82,14 +88,24 @@ def enter():
     global air_enemy3
     global air_enemy4
     global air_enemy5
-
+    global team
     back_ground = backGround()
     air_player = airplane_player()
+
+    team = [airplane_enemy() for i in range(20)]
+
+    for enemy in team:
+        enemy.x = random.randint(100, 700)
+        enemy.y = random.randint(100, 600)
+        pass
+
+
     air_enemy = airplane_enemy()
     air_enemy2 = airplane_enemy()
     air_enemy3 = airplane_enemy()
     air_enemy4 = airplane_enemy()
     air_enemy5 = airplane_enemy()
+
 
     air_enemy.ownX = 400
     air_enemy.ownY = 300
@@ -140,16 +156,16 @@ def handle_events():
             game_framework.quit()
 
         #player--------------------------------------------------------
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:
+        if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:
             air_player.pressKey = 1
             air_player.dir = 1
-        elif event.type == SDL_KEYUP and event.key == SDLK_LEFT:
+        if event.type == SDL_KEYUP and event.key == SDLK_LEFT:
             air_player.pressKey = 0
             air_player.dir = 1
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:
+        if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:
             air_player.pressKey = 1
             air_player.dir = 0
-        elif event.type == SDL_KEYUP and event.key == SDLK_RIGHT:
+        if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:
             air_player.pressKey = 0
             air_player.dir = 0
         #---------------------------------------------------------------
@@ -163,7 +179,8 @@ def update():
     air_enemy3.update()
     air_enemy4.update()
     air_enemy5.update()
-
+    for air_enemyt in team:
+        air_enemyt.update()
     pass
 
 
@@ -174,6 +191,10 @@ def draw():
 
     #start
     air_player.draw()
+
+    for air_enemyt in team:
+        air_enemyt.draw()
+
     air_enemy.draw()
     air_enemy2.draw()
     air_enemy3.draw()

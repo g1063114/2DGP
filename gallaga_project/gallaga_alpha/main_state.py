@@ -6,6 +6,7 @@
 # 3. add game_framework (2016.10.14)
 # 4. optimize1 game_framework (2016.10.17)
 # 5. enemy_setted (2016.10.20)
+# 6. enemy_tile think (2016.10.25)
 # Made by Gunny
 #################################################
 

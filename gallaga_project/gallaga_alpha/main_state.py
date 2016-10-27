@@ -7,6 +7,7 @@
 # 4. optimize1 game_framework (2016.10.17)
 # 5. enemy_setted (2016.10.20)
 # 6. enemy_tile think (2016.10.25)
+# 7. enemy_tile add (2016.10.27)
 # Made by Gunny
 #################################################
 
@@ -51,6 +52,11 @@ class airplane_enemy:
         self.x, self.y = random.randint(-100, 800), random.randint(-100, 600)
         self.ownX = random.randint(100, 700)
         self.ownY = random.randint(300, 500)
+
+        #Add tile set.
+        #To deny overact
+        self.tileX = 0
+        self.tileY = 0
         #self.ownX = 0
         #self.ownY = 0
         self.image = load_image('enemyBlack.png')

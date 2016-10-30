@@ -8,6 +8,7 @@
 # 5. enemy_setted (2016.10.20)
 # 6. enemy_tile think (2016.10.25)
 # 7. enemy_tile add (2016.10.27)
+# 8. bullet add(2016.10.30)
 # Made by Gunny
 #################################################
 
@@ -75,6 +76,15 @@ class airplane_enemy:
     def draw(self):
         self.image.draw(self.x, self.y)
     pass
+
+class bullet:
+    def __init__(self):
+
+        pass
+    def draw(self):
+        pass
+    pass
+
 
 #background image
 class backGround:

@@ -9,6 +9,7 @@
 # 6. enemy_tile think (2016.10.25)
 # 7. enemy_tile add (2016.10.27)
 # 8. bullet add(2016.10.30)
+# 9. collide check(2016-11-04~)
 # Made by Gunny
 #################################################
 

@@ -11,6 +11,7 @@
 # 8. bullet add(2016.10.30)
 # 9. collide check(2016-11-04~)
 # 10. rank.py added(2016-11-07)
+# 11. move while move (2016-11-08)
 # Made by Gunny
 #################################################
 

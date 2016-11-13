@@ -13,6 +13,7 @@
 # 10. rank.py added(2016-11-07)
 # 11. move while move (2016-11-08)
 # 12. player, enemy .py added (2016-11-14)
+#       main_state_test added working on this space!
 # Made by Gunny
 #################################################
 
@@ -26,31 +27,73 @@ from player import Player
 
 name = "MainState"
 move_scale = 0.5
-
+player = None
 
 # Game object class here
+def create_world():
+    global player
+    player = Player()
 
-#airplane class (player)
-class airplane_player:
-    def __init__(self):
-        self.x, self.y = 400 , 30
-        self.pressKey = 0   # 0:stop  1:go
-        self.dir = 0        # 0:right 1:left
-        self.frame = 0
-        self.image = load_image('player.png')
+def destroy_world():
+    global player
+    del(player)
 
-    def update(self):
-        #next i'll add frame
-        #self.frame = (self.frame + 1) & 7
-        if (self.pressKey == 1) and (self.dir == 0):
-            self.x += move_scale
-        elif (self.pressKey == 1) and (self.dir == 1):
-            self.x -= move_scale
+def enter():
+    global back_ground
+    global air_enemy
+    global air_enemy2
+    global air_enemy3
+    global air_enemy4
+    global air_enemy5
+    global team
+    back_ground = backGround()
+
+    #new added
+    create_world()
+
+    team = [airplane_enemy() for i in range(20)]
+
+    for enemy in team:
+        enemy.x = random.randint(100, 700)
+        enemy.y = random.randint(100, 600)
         pass
 
-    def draw(self):
-        self.image.draw(self.x, self.y)
-    pass
+
+    air_enemy = airplane_enemy()
+    air_enemy2 = airplane_enemy()
+    air_enemy3 = airplane_enemy()
+    air_enemy4 = airplane_enemy()
+    air_enemy5 = airplane_enemy()
+
+
+    air_enemy.ownX = 400
+    air_enemy.ownY = 300
+    air_enemy2.ownX = 440
+    air_enemy2.ownY = 300
+    air_enemy3.ownX = 480
+    air_enemy3.ownY = 300
+    air_enemy4.ownX = 520
+    air_enemy4.ownY = 300
+    air_enemy5.ownX = 560
+    air_enemy5.ownY = 300
+
+def exit():
+    global back_ground
+    global air_enemy
+    global air_enemy2
+    global air_enemy3
+    global air_enemy4
+    global air_enemy5
+    del(back_ground)
+    del(air_enemy)
+    del (air_enemy2)
+    del (air_enemy3)
+    del (air_enemy4)
+    del (air_enemy5)
+
+
+
+    destroy_world()
 
 #airplane class (enemy)
 class airplane_enemy:
@@ -117,62 +160,8 @@ class backGround:
 
 
 
-def enter():
-    global air_player
-    global back_ground
-    global air_enemy
-    global air_enemy2
-    global air_enemy3
-    global air_enemy4
-    global air_enemy5
-    global team
-    back_ground = backGround()
-    air_player = airplane_player()
-
-    team = [airplane_enemy() for i in range(20)]
-
-    for enemy in team:
-        enemy.x = random.randint(100, 700)
-        enemy.y = random.randint(100, 600)
-        pass
 
 
-    air_enemy = airplane_enemy()
-    air_enemy2 = airplane_enemy()
-    air_enemy3 = airplane_enemy()
-    air_enemy4 = airplane_enemy()
-    air_enemy5 = airplane_enemy()
-
-
-    air_enemy.ownX = 400
-    air_enemy.ownY = 300
-    air_enemy2.ownX = 440
-    air_enemy2.ownY = 300
-    air_enemy3.ownX = 480
-    air_enemy3.ownY = 300
-    air_enemy4.ownX = 520
-    air_enemy4.ownY = 300
-    air_enemy5.ownX = 560
-    air_enemy5.ownY = 300
-
-    pass
-
-
-def exit():
-    global air_player, back_ground
-    global air_enemy
-    global air_enemy2
-    global air_enemy3
-    global air_enemy4
-    global air_enemy5
-    del(air_player)
-    del(back_ground)
-    del(air_enemy)
-    del (air_enemy2)
-    del (air_enemy3)
-    del (air_enemy4)
-    del (air_enemy5)
-    pass
 
 
 def pause():
@@ -183,52 +172,37 @@ def resume():
     pass
 
 
-def handle_events():
+def handle_events(frame_time):
     events = get_events()
     #start var.
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
-
-        #player--------------------------------------------------------
-        if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:
-            air_player.pressKey = 1
-            air_player.dir = 1
-        if event.type == SDL_KEYUP and event.key == SDLK_LEFT:
-            air_player.pressKey = 0
-            air_player.dir = 1
-        if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:
-            air_player.pressKey = 1
-            air_player.dir = 0
-        if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:
-            air_player.pressKey = 0
-            air_player.dir = 0
-        #---------------------------------------------------------------
-    pass
+        else:
+            if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
+                game_framework.quit()
+            else:
+                player.handle_event(event)
 
 
-def update():
+def update(frame_time):
+    player.update(frame_time)
     back_ground.update()
-    air_player.update()
-    air_enemy.update()
-    air_enemy2.update()
-    air_enemy3.update()
-    air_enemy4.update()
-    air_enemy5.update()
+
     for air_enemyt in team:
         air_enemyt.update()
     pass
 
 
-def draw():
+def draw(frame_time):
     clear_canvas()
     #don't change
     back_ground.draw()
 
     #start
-    air_player.draw()
+    #air_player.draw()
+    player.draw()
+    player.draw_bb()
 
     for air_enemyt in team:
         air_enemyt.draw()

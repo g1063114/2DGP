@@ -1,5 +1,6 @@
 from pico2d import *
 
+
 class Player:
     PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
     RUN_SPEED_KMPH = 20.0  # Km / Hour
@@ -21,6 +22,7 @@ class Player:
         self.x, self.y = 400, 30
         self.dir = 0        # 0:stand 1:right 2:left
         self.state = self.STAND
+        self.shooting = False
         self.image = load_image('player.png')
 
     def update(self, frame_time):
@@ -55,7 +57,6 @@ class Player:
     def draw(self):
         self.image.draw(self.x, self.y)
 
-
     def get_bb(self):
         #이미지 크기는 40*30
         return self.x - 20, self.y - 15, self.x + 20, self.y + 15
@@ -80,3 +81,7 @@ class Player:
             if self.state in (self.MOVE_RIGHT,):
                 self.state = self.STAND
                 self.dir = 0
+
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            self.shooting = True
+            pass

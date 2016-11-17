@@ -1,5 +1,7 @@
 from pico2d import*
 import random
+from bullet import Bullet
+
 
 class Enemy:
     PIXEL_PER_METER = (10.0 / 0.3)           # 10 pixel 30 cm

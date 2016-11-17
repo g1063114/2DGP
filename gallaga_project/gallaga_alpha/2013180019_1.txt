@@ -1,4 +1,3 @@
-Tue Nov 15 17:11:14 2016 +0900 All optimized and perfectly collide. next would be added sound etc
 Tue Nov 15 04:10:03 2016 +0900 enemy.py added
 Mon Nov 14 09:56:15 2016 +0900 Enemy seperated
 Mon Nov 14 02:36:16 2016 +0900 framework에 이식

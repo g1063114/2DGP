@@ -19,7 +19,8 @@
 #   collide_well
 #   bullet_well
 #   (2016-11-15)
-# 14. Enemy starting attack!
+# 14. Enemy starting attack! (2016-11-17~)
+#   attack....(2016-11-19)
 # Made by Gunny
 #################################################
 

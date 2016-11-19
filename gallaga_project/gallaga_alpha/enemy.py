@@ -21,16 +21,21 @@ class Enemy:
     def __init__(self):
         self.x, self.y = 0, 0
         #self.gen_x, self.gen_y = random.randint(-200,1000), random.randint(-100,700)
-        self.arr_x, self.arr_y = random.randint(1,20), random.randint(1,4)
+        self.arr_x, self.arr_y = random.randint(6,20), random.randint(4,8)
         self.state = self.STAND
         self.dir_x = 1
         self.dir_y = 0
         self.image = load_image('enemyBlack.png')
         self.x = 800 - self.arr_x * 40
-        self.y = 500 - self.arr_y * 30
+        self.y = 600 - self.arr_y * 30
+
+    def set_location(self, in_arr_x, in_arr_y):
+        self.arr_x = in_arr_x
+        self.arr_y = in_arr_y
+
+        pass
 
     def update(self, frame_time):
-
         distance = Enemy.RUN_SPEED_PPS * frame_time
         #self.y += (self.dir_y * distance)
 
@@ -38,9 +43,9 @@ class Enemy:
         #if self.x <= self.arr_x * 1:
         #self.x = self.x + 10
         #self.x += (self.dir_x * distance)
-        if self.x < 800 - (self.arr_x + 3) * 40:
+        if self.x < 800 - (self.arr_x) * 40:
             self.dir_x = +1
-        elif self.x >= 800 - (self.arr_x - 3) * 40:
+        elif self.x >= 800 - (self.arr_x - 4) * 40:
             self.dir_x = -1
         self.x += (self.dir_x * distance)
         #self.y += 20

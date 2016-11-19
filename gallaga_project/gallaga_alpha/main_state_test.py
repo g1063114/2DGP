@@ -31,7 +31,7 @@ import game_framework
 import title_state
 from player import Player
 from enemy import Enemy
-from bullet import Bullet
+from bullet import Bullet, EnemyBullet
 import ranking_state
 
 name = "MainState"
@@ -39,6 +39,8 @@ move_scale = 0.5
 player = None
 enemies = None
 bullet = None
+enemy_bullets = None
+# enemy_bullet = None
 back_ground = None
 score = 0
 font = None
@@ -47,16 +49,24 @@ score_data = None
 
 # Game object class here
 def create_world():
-    global player, enemies, bullet
+    global player, enemies, bullet, enemy_bullets
     player = Player()
-    enemies = [Enemy() for i in range(20)]
+    enemies = [Enemy() for i in range(40)]
     bullet = Bullet()
+    enemy_bullets = [EnemyBullet() for i in range(40)]
+#    x, y = 4, 4
+#    for enemy in enemies:
+#        enemy.set_location(x,y)
+#        x = x + 1
+#        y = y + 1
+
 
 def destroy_world():
-    global player, enemies, bullet
+    global player, enemies, bullet, enemy_bullets
     del(player)
     del(enemies)
     del(bullet)
+    del (enemy_bullets)
 
 
 def enter():
@@ -84,16 +94,6 @@ def exit():
     f.close()
 
     destroy_world()
-
-
-#class bullet:
-#    def __init__(self):
-#        pass
-
-#    def draw(self):
-#        pass
-#    pass
-
 
 # background image
 class backGround:
@@ -162,6 +162,11 @@ def update(frame_time):
 
     player.update(frame_time)
     bullet.update(frame_time, player.x)
+
+    for enemy in enemies:
+        for bullets in enemy_bullets:
+            bullets.update(frame_time, enemy.x)
+
     back_ground.update()
 
     for enemy in enemies:
@@ -173,6 +178,9 @@ def update(frame_time):
             enemy.stop()
             score = score + 100
             print("score : ", score)
+#    for Ebullet in enemy_bullet:
+#        if collide(player, Ebullet):
+#            pass
 
 
 
@@ -196,5 +204,8 @@ def draw(frame_time):
     for enemy in enemies:
         enemy.draw()
         enemy.draw_bb()
+    # enemies bullet
+    for bullets in enemy_bullets:
+        bullets.draw()
 
     update_canvas()

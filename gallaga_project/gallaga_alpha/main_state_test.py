@@ -54,11 +54,11 @@ def create_world():
     enemies = [Enemy() for i in range(40)]
     bullet = Bullet()
     enemy_bullets = [EnemyBullet() for i in range(40)]
-#    x, y = 4, 4
-#    for enemy in enemies:
-#        enemy.set_location(x,y)
-#        x = x + 1
-#        y = y + 1
+    #x, y = 1, 1
+    #for enemy in enemies:
+    #    enemy.set_location(x, y)
+    #    x = x + 1
+    #    y = y + 1
 
 
 def destroy_world():

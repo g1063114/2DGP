@@ -62,17 +62,12 @@ class EnemyBullet(Bullet):
 
     def __init__(self):
         self.x, self.y = 100, 700
+        # self.shooting
         if EnemyBullet.image == None:   # 13 * 37의 이미지
             EnemyBullet.image = load_image('enemy_bullet.png')
 
     def update(self, frame_time, enemy_x):
-        if self.shooting is True:
-            if self.shoot_start is True:
-                self.x = enemy_x
-                self.shoot_start = False
-            if self.y <= -10:
-                self.y = self.shoot_dir * 30
-                self.shooting = False
+        pass
 
     def timer(self):
         pass

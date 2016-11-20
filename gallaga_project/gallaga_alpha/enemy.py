@@ -22,6 +22,7 @@ class Enemy:
         self.x, self.y = 0, 0
         #self.gen_x, self.gen_y = random.randint(-200,1000), random.randint(-100,700)
         self.arr_x, self.arr_y = random.randint(6,20), random.randint(4,8)
+        # self.arr_x, self.arr_y = 0, 0
         self.state = self.STAND
         self.dir_x = 1
         self.dir_y = 0

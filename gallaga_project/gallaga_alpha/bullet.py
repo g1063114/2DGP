@@ -1,4 +1,5 @@
 from pico2d import*
+import random
 
 class Bullet:
     image = None
@@ -62,6 +63,9 @@ class EnemyBullet(Bullet):
 
     def __init__(self):
         self.x, self.y = 100, 700
+
+        # 500ms ~ 2000ms shooting time
+        self.shooting_time = random.randint(500, 2000)
         # self.shooting
         if EnemyBullet.image == None:   # 13 * 37의 이미지
             EnemyBullet.image = load_image('enemy_bullet.png')

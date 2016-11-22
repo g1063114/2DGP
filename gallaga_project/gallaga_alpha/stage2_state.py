@@ -1,31 +1,3 @@
-#################################################
-############# GALLAGA_REMAKEver #################
-# Start project in 2016-10-02
-# 1. make code layout (2016-10-02)
-# 2. add resource(player)
-# 3. add game_framework (2016.10.14)
-# 4. optimize1 game_framework (2016.10.17)
-# 5. enemy_setted (2016.10.20)
-# 6. enemy_tile think (2016.10.25)
-# 7. enemy_tile add (2016.10.27)
-# 8. bullet add(2016.10.30)
-# 9. collide check(2016-11-04~)
-# 10. rank.py added(2016-11-07)
-# 11. move while move (2016-11-08)
-# 12. player, enemy .py added (2016-11-14)
-#       main_state_test added working on this space!
-# 13. Framework well optimized
-#   ranking_state working well
-#   collide_well
-#   bullet_well
-#   (2016-11-15)
-# 14. Enemy starting attack! (2016-11-17~)
-#   attack....(2016-11-19)
-# 15. stage2.py added (2016-11-23)
-#     enemy can't attack yet...
-# Made by Gunny
-#################################################
-
 from pico2d import *
 import random
 import os
@@ -35,30 +7,28 @@ from player import Player
 from enemy import Enemy
 from bullet import Bullet, EnemyBullet
 import ranking_state
-import enter_stage2_state
-from enter_stage2_state import nextStage_score
+import main_state_test
 
 name = "MainState"
 move_scale = 0.5
 player = None
 enemies = None
-player_bullet = None
+bullet = None
 enemy_bullets = None
 # enemy_bullet = None
 back_ground = None
-score = 0
 enemy_kill_count = 0
+score = None
 font = None
 score_data = None
-goto_next_stage = False
 
 
 # Game object class here
 def create_world():
-    global player, enemies, player_bullet, enemy_bullets
+    global player, enemies, bullet, enemy_bullets
     player = Player()
     enemies = [Enemy() for i in range(40)]
-    player_bullet = Bullet()
+    bullet = Bullet()
     enemy_bullets = [EnemyBullet() for i in range(40)]
     #x, y = 1, 1
     #for enemy in enemies:
@@ -68,10 +38,10 @@ def create_world():
 
 
 def destroy_world():
-    global player, enemies, player_bullet, enemy_bullets
+    global player, enemies, bullet, enemy_bullets
     del(player)
     del(enemies)
-    del(player_bullet)
+    del(bullet)
     del (enemy_bullets)
 
 
@@ -145,9 +115,7 @@ def collide(a, b):
 
 
 def handle_events(frame_time):
-    global player_bullet
-    global goto_next_stage
-    global next_stage_score
+    global bullet
     events = get_events()
     # start var.
     for event in events:
@@ -157,11 +125,7 @@ def handle_events(frame_time):
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                if goto_next_stage is True:
-                    next_stage_score = score
-                    game_framework.change_state(enter_stage2_state)
-                else:
-                    player_bullet.handle_event(event)
+                bullet.handle_event(event)
             # ranking state
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
                 game_framework.change_state(ranking_state)
@@ -172,11 +136,9 @@ def handle_events(frame_time):
 def update(frame_time):
     global score
     global enemy_kill_count
-    global goto_next_stage
-    # global player_bullet
 
     player.update(frame_time)
-    player_bullet.update(frame_time, player.x)
+    bullet.update(frame_time, player.x)
 
     for enemy in enemies:
         for bullets in enemy_bullets:
@@ -187,17 +149,17 @@ def update(frame_time):
     for enemy in enemies:
         enemy.update(frame_time)
     for enemy in enemies:
-        if collide(enemy, player_bullet):
+        if collide(enemy, bullet):
             print("collision")
-            player_bullet.stop()
+            bullet.stop()
             enemy.stop()
             score = score + 100
             print("score : ", score)
             enemy_kill_count += 1
             print("kill_count : ", enemy_kill_count)
-            # 임시 테스트용 - 원래는 40
-            if enemy_kill_count == 3:
-                goto_next_stage = True
+            #임시 테스트용
+            if enemy_kill_count == 10:
+
                 pass
 
 
@@ -220,8 +182,8 @@ def draw(frame_time):
     # player.draw()
     player.draw()
     player.draw_bb()
-    player_bullet.draw()
-    player_bullet.draw_bb()
+    bullet.draw()
+    bullet.draw_bb()
 
     # enemies
     for enemy in enemies:
@@ -230,9 +192,5 @@ def draw(frame_time):
     # enemies bullet
     for bullets in enemy_bullets:
         bullets.draw()
-
-    if goto_next_stage is True:
-        font.draw(200, 300, 'Press SpaceBar to go to NextStage!!')
-        # print("Press SpaceBar to go to NextStage!!")
 
     update_canvas()

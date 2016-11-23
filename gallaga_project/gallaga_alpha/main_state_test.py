@@ -23,6 +23,9 @@
 #   attack....(2016-11-19)
 # 15. stage2.py added (2016-11-23)
 #     enemy can't attack yet...
+# 16. pass stage1 score to stage2
+#               (2016-11-23)   all-round ver
+#   draw_score.py added
 # Made by Gunny
 #################################################
 
@@ -36,7 +39,10 @@ from enemy import Enemy
 from bullet import Bullet, EnemyBullet
 import ranking_state
 import enter_stage2_state
-from enter_stage2_state import nextStage_score
+from draw_score import ScoreDraw
+# from enter_stage2_state import get_stage1_score()
+# import enter_stage2_state
+from enter_stage2_state import Getting_score
 
 name = "MainState"
 move_scale = 0.5
@@ -51,11 +57,14 @@ enemy_kill_count = 0
 font = None
 score_data = None
 goto_next_stage = False
-
+push_next_stage_score = None
 
 # Game object class here
 def create_world():
     global player, enemies, player_bullet, enemy_bullets
+    global push_next_stage_score
+
+    push_next_stage_score = Getting_score()
     player = Player()
     enemies = [Enemy() for i in range(40)]
     player_bullet = Bullet()
@@ -68,11 +77,13 @@ def create_world():
 
 
 def destroy_world():
-    global player, enemies, player_bullet, enemy_bullets
+    global player, enemies, player_bullet, enemy_bullets, font, push_next_stage_score
     del(player)
     del(enemies)
     del(player_bullet)
     del (enemy_bullets)
+    del (font)
+    del (push_next_stage_score)
 
 
 def enter():
@@ -158,7 +169,9 @@ def handle_events(frame_time):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
                 if goto_next_stage is True:
-                    next_stage_score = score
+                    # next_stage_score = score
+                    # get_stage1_score(score)
+                    push_next_stage_score.get_stage1_score(score)
                     game_framework.change_state(enter_stage2_state)
                 else:
                     player_bullet.handle_event(event)

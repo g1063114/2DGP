@@ -18,7 +18,7 @@ enemy_bullets = None
 # enemy_bullet = None
 back_ground = None
 enemy_kill_count = 0
-score = None
+score = 0
 font = None
 score_data = None
 
@@ -77,8 +77,8 @@ class backGround:
         # not yet!
         self.pagePoint = 3       # scroll the page
         self.pagePoint2 = 1
-        self.image = load_image('background.png')
-        self.image2 = load_image('background.png')
+        self.image = load_image('background2.png')
+        self.image2 = load_image('background2.png')
     def draw(self):
         self.image.draw(400, 300 * self.pagePoint);
         self.image2.draw(400, 300 * self.pagePoint2);

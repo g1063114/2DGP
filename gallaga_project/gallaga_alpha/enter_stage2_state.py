@@ -9,19 +9,44 @@ import stage2_state
 name = "TitleState"
 image = None
 nextStage_score = None
+font = None
+score = None
+
+score1 = None
+
+class Getting_score:
+    global score1
+
+    def get_stage1_score(self, stage1_score):
+        score1 = stage1_score
+
+    def get_score(self):
+        return score1
+    pass
+
+
+
+#def get_stage1_score(stage1_score):
+#
 
 def enter():
     global image
     global nextStage_score
-
-    print("%d" %nextStage_score)
+    global font
+    global score
+    score = Getting_score()
+    # score.
+    font = load_font('ENCR10B.TTF')
+    # print("%d" %nextStage_score)
     image = load_image('background2.png')
     pass
 
 
 def exit():
-    global image
+    global image, font, score
+    del(font)
     del(image)
+    del(score)
     pass
 
 
@@ -40,8 +65,12 @@ def handle_events(frame_time):
 
 
 def draw(frame_time):
+    global score
     clear_canvas()
     image.draw(400, 300)
+    font.draw(200, 300, 'Stage2 Start! Press space bar to start game.')
+    font.draw(200, 400, 'Score : %d' %score.get_score())
+    #  print('%d' %score1)
     update_canvas()
     pass
 

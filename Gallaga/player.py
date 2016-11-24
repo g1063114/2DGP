@@ -10,7 +10,7 @@ class Player:
 
     def __init__(self):
         self.x, self.y = 400, 30
-        self.move_speed = 50
+        self.move_speed = 150
         self.dir = 0        # 0:stand 1:right 2:left
         self.state = self.STAND
         self.shooting = False

@@ -24,8 +24,8 @@ class Enemy:
     def set_location(self, in_arr_x, in_arr_y):
         self.arr_x = in_arr_x
         self.arr_y = in_arr_y
-
-        pass
+        self.x = 800 - self.arr_x * 40
+        self.y = 600 - self.arr_y * 30
 
     def update(self, frame_time):
         distance = self.move_speed * frame_time

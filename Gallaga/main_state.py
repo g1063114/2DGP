@@ -40,10 +40,8 @@ from enemy import Enemy
 from bullet import Bullet, EnemyBullet
 import ranking_state
 import enter_stage2_state
-from draw_score import ScoreDraw
-# from enter_stage2_state import get_stage1_score()
-# import enter_stage2_state
 from enter_stage2_state import Getting_score
+from draw_score import ScoreDraw
 
 name = "MainState"
 move_scale = 0.5
@@ -59,32 +57,46 @@ font = None
 score_data = None
 goto_next_stage = False
 push_next_stage_score = None
+draw_score = None
 
 # Game object class here
 def create_world():
     global player, enemies, player_bullet, enemy_bullets
     global push_next_stage_score
+    global draw_score
+
+    draw_score = ScoreDraw()
 
     push_next_stage_score = Getting_score()
     player = Player()
-    enemies = [Enemy() for i in range(40)]
+
+    # Generate enemies 60!
+    enemies = [Enemy() for i in range(60)]
+
+    x = 6
+    y = 4
+    i = 0
+    # set location!
+    for y in range(4, 8):
+        for x in range(6, 21):
+            # print("x,y :: ", x," ", y)
+            enemies[i].set_location(x, y)
+            i += 1
+
+
     player_bullet = Bullet()
-    enemy_bullets = [EnemyBullet() for i in range(40)]
-    #x, y = 1, 1
-    #for enemy in enemies:
-    #    enemy.set_location(x, y)
-    #    x = x + 1
-    #    y = y + 1
 
 
 def destroy_world():
     global player, enemies, player_bullet, enemy_bullets, font, push_next_stage_score
+    global draw_score
     del(player)
     del(enemies)
     del(player_bullet)
     del (enemy_bullets)
     del (font)
     del (push_next_stage_score)
+    del (draw_score)
 
 
 def enter():
@@ -187,16 +199,19 @@ def update(frame_time):
     global score
     global enemy_kill_count
     global goto_next_stage
+    global draw_score
+
     # global player_bullet
 
     player.update(frame_time)
     player_bullet.update(frame_time, player.x)
 
-    for enemy in enemies:
-        for bullets in enemy_bullets:
-            bullets.update(frame_time, enemy.x)
+    #for enemy in enemies:
+    #    for bullets in enemy_bullets:
+    #        bullets.update(frame_time, enemy.x)
 
     back_ground.update()
+    draw_score.update(frame_time, score)
 
     for enemy in enemies:
         enemy.update(frame_time)
@@ -205,7 +220,7 @@ def update(frame_time):
             print("collision")
             player_bullet.stop()
             enemy.stop()
-            score = score + 100
+            score = score + 10
             print("score : ", score)
             enemy_kill_count += 1
             print("kill_count : ", enemy_kill_count)
@@ -225,10 +240,13 @@ def update(frame_time):
 
 
 def draw(frame_time):
+    # global draw_score
     clear_canvas()
     # don't change
     back_ground.draw()
-    font.draw(50, 550, 'score: %d' %score)
+
+    # ------------------------------------------------------
+    # font.draw(50, 550, 'score: %d' %score)
 
     # start
     # player.draw()
@@ -237,13 +255,15 @@ def draw(frame_time):
     player_bullet.draw()
     player_bullet.draw_bb()
 
+    draw_score.draw()
+
     # enemies
     for enemy in enemies:
         enemy.draw()
         enemy.draw_bb()
     # enemies bullet
-    for bullets in enemy_bullets:
-        bullets.draw()
+    #for bullets in enemy_bullets:
+    #    bullets.draw()
 
     if goto_next_stage is True:
         font.draw(200, 300, 'Press SpaceBar to go to NextStage!!')

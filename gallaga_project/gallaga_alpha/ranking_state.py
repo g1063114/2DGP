@@ -3,7 +3,7 @@ from pico2d import *
 import json
 
 import title_state
-import main_state_test
+import main_state
 
 
 name = "TitleState"
@@ -12,17 +12,18 @@ font = None
 
 def enter():
     global image
-    image = load_image('blackboard.png')
+    image = load_image('resource/background_folder/blackboard.png')
     global font
-    font = load_font('ENCR10B.TTF', 40)
+    font = load_font('resource/ENCR10B.TTF', 40)
 
 def exit():
     global image
-    del(image)
+    del (image)
 
 
 def pause():
     pass
+
 
 def resume():
     pass
@@ -53,7 +54,7 @@ def bubble_sort(data):
 
 # redible upgrade!
 def draw_ranking():
-    f = open('data_file.txt', 'r')
+    f = open('resource/data_file.txt', 'r')
     score_data = json.load(f)
     f.close()
 

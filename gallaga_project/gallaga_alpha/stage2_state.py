@@ -1,13 +1,10 @@
 from pico2d import *
-import random
-import os
 import game_framework
-import title_state
 from player import Player
 from enemy import Enemy
 from bullet import Bullet, EnemyBullet
 import ranking_state
-import main_state_test
+import main_state
 
 name = "MainState"
 move_scale = 0.5
@@ -48,7 +45,7 @@ def destroy_world():
 def enter():
     global back_ground, font
     back_ground = backGround()
-    font = load_font('ENCR10B.TTF')
+    font = load_font('resource/ENCR10B.TTF')
 
     # new added
     create_world()
@@ -57,7 +54,7 @@ def enter():
 def exit():
     global score_data, score, font
 
-    f = open('data_file.txt', 'r')
+    f = open('resource/data_file.txt', 'r')
     score_data = json.load(f)
     f.close()
 
@@ -65,7 +62,7 @@ def exit():
 
     print(score_data)
 
-    f = open('data_file.txt', 'w')
+    f = open('resource/data_file.txt', 'w')
     json.dump(score_data, f)
     f.close()
 
@@ -77,8 +74,8 @@ class backGround:
         # not yet!
         self.pagePoint = 3       # scroll the page
         self.pagePoint2 = 1
-        self.image = load_image('background2.png')
-        self.image2 = load_image('background2.png')
+        self.image = load_image('resource/background_folder/background2.png')
+        self.image2 = load_image('resource/background_folder/background2.png')
     def draw(self):
         self.image.draw(400, 300 * self.pagePoint);
         self.image2.draw(400, 300 * self.pagePoint2);

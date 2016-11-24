@@ -71,16 +71,6 @@ class ScoreDraw:
 
 
         # 기존코드 삭제 해야함.
-        if self.shooting is True:
-            if self.shoot_start is True:
-                self.x = inX
-                self.shoot_start = False
-            if self.y >= 630:
-                self.y = self.shoot_dir * 30
-                self.shooting = False
-
-            distance = Bullet.RUN_SPEED_PPS * frame_time
-            self.y += 1 * distance
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -101,5 +91,3 @@ class ScoreDraw:
     def stop(self):
         self.shooting = False
         self.y = -30
-
-    pass

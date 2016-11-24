@@ -13,6 +13,20 @@
 # 10. rank.py added(2016-11-07)
 # 11. move while move (2016-11-08)
 # 12. player, enemy .py added (2016-11-14)
+#       main_state_test added working on this space!
+# 13. Framework well optimized
+#   ranking_state working well
+#   collide_well
+#   bullet_well
+#   (2016-11-15)
+# 14. Enemy starting attack! (2016-11-17~)
+#   attack....(2016-11-19)
+# 15. stage2.py added (2016-11-23)
+#     enemy can't attack yet...
+# 16. pass stage1 score to stage2
+#               (2016-11-23)   all-round ver
+#   draw_score.py added
+# 17. refectoring all these files! (2016-11-24~)
 # Made by Gunny
 #################################################
 
@@ -22,83 +36,91 @@ import os
 import game_framework
 import title_state
 from player import Player
-
+from enemy import Enemy
+from bullet import Bullet, EnemyBullet
+import ranking_state
+import enter_stage2_state
+from draw_score import ScoreDraw
+# from enter_stage2_state import get_stage1_score()
+# import enter_stage2_state
+from enter_stage2_state import Getting_score
 
 name = "MainState"
 move_scale = 0.5
-
+player = None
+enemies = None
+player_bullet = None
+enemy_bullets = None
+# enemy_bullet = None
+back_ground = None
+score = 0
+enemy_kill_count = 0
+font = None
+score_data = None
+goto_next_stage = False
+push_next_stage_score = None
 
 # Game object class here
+def create_world():
+    global player, enemies, player_bullet, enemy_bullets
+    global push_next_stage_score
 
-#airplane class (player)
-class airplane_player:
-    def __init__(self):
-        self.x, self.y = 400 , 30
-        self.pressKey = 0   # 0:stop  1:go
-        self.dir = 0        # 0:right 1:left
-        self.frame = 0
-        self.image = load_image('player.png')
-
-    def update(self):
-        #next i'll add frame
-        #self.frame = (self.frame + 1) & 7
-        if (self.pressKey == 1) and (self.dir == 0):
-            self.x += move_scale
-        elif (self.pressKey == 1) and (self.dir == 1):
-            self.x -= move_scale
-        pass
-
-    def draw(self):
-        self.image.draw(self.x, self.y)
-    pass
-
-#airplane class (enemy)
-class airplane_enemy:
-    def __init__(self):
-        self.x, self.y = random.randint(-100, 800), random.randint(-100, 600)
-        self.ownX = random.randint(100, 700)
-        self.ownY = random.randint(300, 500)
-
-        #Add tile set.
-        #To deny overact
-        self.tileX = 0
-        self.tileY = 0
-        #self.ownX = 0
-        #self.ownY = 0
-        self.image = load_image('enemyBlack.png')
-
-    def update(self):
-        #enemy should find own place
-        if (self.x > self.ownX):
-            self.x -= move_scale
-        elif self.x < self.ownX:
-            self.x += move_scale
-        elif self.y > self.ownY:
-            self.y -= move_scale
-        elif self.y < self.ownY:
-            self.y += move_scale
-        pass
-    def draw(self):
-        self.image.draw(self.x, self.y)
-    pass
-
-class bullet:
-    def __init__(self):
-
-        pass
-    def draw(self):
-        pass
-    pass
+    push_next_stage_score = Getting_score()
+    player = Player()
+    enemies = [Enemy() for i in range(40)]
+    player_bullet = Bullet()
+    enemy_bullets = [EnemyBullet() for i in range(40)]
+    #x, y = 1, 1
+    #for enemy in enemies:
+    #    enemy.set_location(x, y)
+    #    x = x + 1
+    #    y = y + 1
 
 
-#background image
+def destroy_world():
+    global player, enemies, player_bullet, enemy_bullets, font, push_next_stage_score
+    del(player)
+    del(enemies)
+    del(player_bullet)
+    del (enemy_bullets)
+    del (font)
+    del (push_next_stage_score)
+
+
+def enter():
+    global back_ground, font
+    back_ground = backGround()
+    font = load_font('resource/ENCR10B.TTF')
+
+    # new added
+    create_world()
+
+
+def exit():
+    global score_data, score, font
+
+    f = open('resource/data_file.txt', 'r')
+    score_data = json.load(f)
+    f.close()
+
+    score_data.append({'score':score})
+
+    print(score_data)
+
+    f = open('resource/data_file.txt', 'w')
+    json.dump(score_data, f)
+    f.close()
+
+    destroy_world()
+
+# background image
 class backGround:
     def __init__(self):
-        #not yet!
-        self.pagePoint = 3       #scroll the page
+        # not yet!
+        self.pagePoint = 3       # scroll the page
         self.pagePoint2 = 1
-        self.image = load_image('background.png')
-        self.image2 = load_image('background.png')
+        self.image = load_image('resource/background_folder/background.png')
+        self.image2 = load_image('resource/background_folder/background.png')
     def draw(self):
         self.image.draw(400, 300 * self.pagePoint);
         self.image2.draw(400, 300 * self.pagePoint2);
@@ -116,65 +138,6 @@ class backGround:
     pass
 
 
-
-def enter():
-    global air_player
-    global back_ground
-    global air_enemy
-    global air_enemy2
-    global air_enemy3
-    global air_enemy4
-    global air_enemy5
-    global team
-    back_ground = backGround()
-    air_player = airplane_player()
-
-    team = [airplane_enemy() for i in range(20)]
-
-    for enemy in team:
-        enemy.x = random.randint(100, 700)
-        enemy.y = random.randint(100, 600)
-        pass
-
-
-    air_enemy = airplane_enemy()
-    air_enemy2 = airplane_enemy()
-    air_enemy3 = airplane_enemy()
-    air_enemy4 = airplane_enemy()
-    air_enemy5 = airplane_enemy()
-
-
-    air_enemy.ownX = 400
-    air_enemy.ownY = 300
-    air_enemy2.ownX = 440
-    air_enemy2.ownY = 300
-    air_enemy3.ownX = 480
-    air_enemy3.ownY = 300
-    air_enemy4.ownX = 520
-    air_enemy4.ownY = 300
-    air_enemy5.ownX = 560
-    air_enemy5.ownY = 300
-
-    pass
-
-
-def exit():
-    global air_player, back_ground
-    global air_enemy
-    global air_enemy2
-    global air_enemy3
-    global air_enemy4
-    global air_enemy5
-    del(air_player)
-    del(back_ground)
-    del(air_enemy)
-    del (air_enemy2)
-    del (air_enemy3)
-    del (air_enemy4)
-    del (air_enemy5)
-    pass
-
-
 def pause():
     pass
 
@@ -182,61 +145,108 @@ def pause():
 def resume():
     pass
 
+def collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
 
-def handle_events():
+    if left_a > right_b : return False
+    if right_a < left_b : return False
+    if top_a < bottom_b : return False
+    if bottom_a > top_b : return False
+    return True
+
+
+def handle_events(frame_time):
+    global player_bullet
+    global goto_next_stage
+    global next_stage_score
     events = get_events()
-    #start var.
+    # start var.
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
-
-        #player--------------------------------------------------------
-        if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:
-            air_player.pressKey = 1
-            air_player.dir = 1
-        if event.type == SDL_KEYUP and event.key == SDLK_LEFT:
-            air_player.pressKey = 0
-            air_player.dir = 1
-        if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:
-            air_player.pressKey = 1
-            air_player.dir = 0
-        if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:
-            air_player.pressKey = 0
-            air_player.dir = 0
-        #---------------------------------------------------------------
-    pass
+        else:
+            if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
+                game_framework.quit()
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+                if goto_next_stage is True:
+                    # next_stage_score = score
+                    # get_stage1_score(score)
+                    push_next_stage_score.get_stage1_score(score)
+                    game_framework.change_state(enter_stage2_state)
+                else:
+                    player_bullet.handle_event(event)
+            # ranking state
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
+                game_framework.change_state(ranking_state)
+            else:
+                player.handle_event(event)
 
 
-def update():
+def update(frame_time):
+    global score
+    global enemy_kill_count
+    global goto_next_stage
+    # global player_bullet
+
+    player.update(frame_time)
+    player_bullet.update(frame_time, player.x)
+
+    for enemy in enemies:
+        for bullets in enemy_bullets:
+            bullets.update(frame_time, enemy.x)
+
     back_ground.update()
-    air_player.update()
-    air_enemy.update()
-    air_enemy2.update()
-    air_enemy3.update()
-    air_enemy4.update()
-    air_enemy5.update()
-    for air_enemyt in team:
-        air_enemyt.update()
-    pass
+
+    for enemy in enemies:
+        enemy.update(frame_time)
+    for enemy in enemies:
+        if collide(enemy, player_bullet):
+            print("collision")
+            player_bullet.stop()
+            enemy.stop()
+            score = score + 100
+            print("score : ", score)
+            enemy_kill_count += 1
+            print("kill_count : ", enemy_kill_count)
+            # 임시 테스트용 - 원래는 40
+            if enemy_kill_count == 3:
+                goto_next_stage = True
+                pass
 
 
-def draw():
+#    for Ebullet in enemy_bullet:
+#        if collide(player, Ebullet):
+#            pass
+
+
+
+
+
+
+def draw(frame_time):
     clear_canvas()
-    #don't change
+    # don't change
     back_ground.draw()
+    font.draw(50, 550, 'score: %d' %score)
 
-    #start
-    air_player.draw()
+    # start
+    # player.draw()
+    player.draw()
+    player.draw_bb()
+    player_bullet.draw()
+    player_bullet.draw_bb()
 
-    for air_enemyt in team:
-        air_enemyt.draw()
+    # enemies
+    for enemy in enemies:
+        enemy.draw()
+        enemy.draw_bb()
+    # enemies bullet
+    for bullets in enemy_bullets:
+        bullets.draw()
 
-    air_enemy.draw()
-    air_enemy2.draw()
-    air_enemy3.draw()
-    air_enemy4.draw()
-    air_enemy5.draw()
+    if goto_next_stage is True:
+        font.draw(200, 300, 'Press SpaceBar to go to NextStage!!')
+        # print("Press SpaceBar to go to NextStage!!")
+
     update_canvas()
-    pass

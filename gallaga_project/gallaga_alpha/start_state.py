@@ -12,7 +12,7 @@ def enter():
     global image
     open_canvas()
     game_framework.reset_time()
-    image = load_image('kpu_credit.png')
+    image = load_image('resource/background_folder/kpu_credit.png')
     pass
 
 

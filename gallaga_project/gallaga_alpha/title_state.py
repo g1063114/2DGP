@@ -1,8 +1,6 @@
 import game_framework
-#import main_state
-import main_state_test
+import main_state
 from pico2d import *
-
 
 name = "TitleState"
 image = None
@@ -10,7 +8,7 @@ image = None
 
 def enter():
     global image
-    image = load_image('title.png')
+    image = load_image('resource/background_folder/title.png')
     pass
 
 
@@ -30,7 +28,7 @@ def handle_events(frame_time):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
                 #game_framework.change_state(main_state)
-                game_framework.change_state(main_state_test)
+                game_framework.change_state(main_state)
     pass
 
 

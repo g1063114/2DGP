@@ -1,7 +1,5 @@
 import game_framework
-# import main_state
-import main_state_test
-# from main_state_test import score
+import main_state
 from pico2d import *
 import stage2_state
 
@@ -12,16 +10,16 @@ nextStage_score = None
 font = None
 score = None
 
-score1 = None
 
 class Getting_score:
-    global score1
+    def __init__(self):
+        self.score = 0
 
     def get_stage1_score(self, stage1_score):
-        score1 = stage1_score
+        self.score = stage1_score
 
     def get_score(self):
-        return score1
+        return self.score
     pass
 
 
@@ -36,9 +34,9 @@ def enter():
     global score
     score = Getting_score()
     # score.
-    font = load_font('ENCR10B.TTF')
+    font = load_font('resource/ENCR10B.TTF')
     # print("%d" %nextStage_score)
-    image = load_image('background2.png')
+    image = load_image('resource/background_folder/background2.png')
     pass
 
 
@@ -59,17 +57,16 @@ def handle_events(frame_time):
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                #game_framework.change_state(main_state)
                 game_framework.change_state(stage2_state)
     pass
 
 
 def draw(frame_time):
-    global score
+    temp = score.get_score()
     clear_canvas()
     image.draw(400, 300)
     font.draw(200, 300, 'Stage2 Start! Press space bar to start game.')
-    font.draw(200, 400, 'Score : %d' %score.get_score())
+    font.draw(200, 400, 'Score : %d' %temp)
     #  print('%d' %score1)
     update_canvas()
     pass

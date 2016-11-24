@@ -2,16 +2,6 @@ from pico2d import *
 
 
 class Player:
-    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-    RUN_SPEED_KMPH = 20.0  # Km / Hour
-    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
-    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
-    TIME_PER_ACTION = 0.5
-    ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-    FRAMES_PER_ACTION = 8
-
     image = None
 
     #state define
@@ -20,10 +10,11 @@ class Player:
 
     def __init__(self):
         self.x, self.y = 400, 30
+        self.move_speed = 50
         self.dir = 0        # 0:stand 1:right 2:left
         self.state = self.STAND
         self.shooting = False
-        self.image = load_image('player.png')
+        self.image = load_image('resource/aircraft_folder/player.png')
 
     def update(self, frame_time):
         #clamp 벽과 충돌 체크 ( 일단은 넣어놔 이거 두 줄)
@@ -32,7 +23,7 @@ class Player:
 
 
         #시간 동기화 시켜줘야한다. 컴퓨터마다 사양이 다르므로.
-        distance = Player.RUN_SPEED_PPS * frame_time
+        distance = self.move_speed * frame_time
         #distance = 10
         #self.total_frames += Player.FRAMES_PER_ACTION * Player.ACTION_PER_TIME * frame_time
         #self.frame = int(self.total_frames) % 8
@@ -84,4 +75,3 @@ class Player:
 
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
             self.shooting = True
-            pass

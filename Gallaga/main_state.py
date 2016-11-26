@@ -27,7 +27,8 @@
 #               (2016-11-23)   all-round ver
 #   draw_score.py added
 # 17. refectoring all these files! (2016-11-24~)
-# Made by Gunny
+# 18. error edit (2016-11-26)
+# Made by Gunny　
 #################################################
 
 from pico2d import *

@@ -28,6 +28,7 @@
 #   draw_score.py added
 # 17. refectoring all these files! (2016-11-24~)
 # 18. error edit (2016-11-26)
+# 19. admit stage2 (2016-11-28)
 # Made by Gunny　
 #################################################
 

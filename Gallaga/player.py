@@ -17,10 +17,6 @@ class Player:
         self.image = load_image('resource/aircraft_folder/player.png')
 
     def update(self, frame_time):
-        #clamp 벽과 충돌 체크 ( 일단은 넣어놔 이거 두 줄)
-        #def clamp(minimum, x, maximum):
-        #    return max(minimum, min(x, maximum))
-
 
         #시간 동기화 시켜줘야한다. 컴퓨터마다 사양이 다르므로.
         distance = self.move_speed * frame_time
@@ -29,20 +25,6 @@ class Player:
         #self.frame = int(self.total_frames) % 8
         self.x += (self.dir * distance)
 
-
-        #일단 클램프는 넣어놔
-        #self.x = clamp(0, self.x, 800)
-
-
-        #next i'll add frame
-
-        # ----------------------------------------------
-        #self.frame = (self.frame + 1) & 7
-        #if (self.pressKey == 1) and (self.dir == 0):
-        #    self.x += move_scale
-        #elif (self.pressKey == 1) and (self.dir == 1):
-        #    self.x -= move_scale
-         #----------------------------------------------
 
 
     def draw(self):

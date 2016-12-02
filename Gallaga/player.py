@@ -14,6 +14,9 @@ class Player:
         self.dir = 0        # 0:stand 1:right 2:left
         self.state = self.STAND
         self.shooting = False
+        # frame added
+        self.frame = 0
+
         self.image = load_image('resource/aircraft_folder/player.png')
 
     def update(self, frame_time):

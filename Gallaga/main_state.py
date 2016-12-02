@@ -29,7 +29,7 @@
 # 17. refectoring all these files! (2016-11-24~)
 # 18. error edit (2016-11-26)
 # 19. admit stage2 (2016-11-28)
-# 20.should add player frame
+# 20. should add player frame
 # Made by Gunny　
 #################################################
 

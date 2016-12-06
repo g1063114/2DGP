@@ -2,7 +2,7 @@
 # To do list    2016-11-24
 #   add time_func
 #
-#
+# enemies bullet sync
 #
 # ----------------------------------
 

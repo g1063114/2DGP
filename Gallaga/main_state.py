@@ -33,6 +33,7 @@
 # 21. Enemies bullet
 # 22. Background state added
 # 23. Don't have to add background so i delete it
+# 24. sound..... state
 # Made by Gunny　
 #################################################
 

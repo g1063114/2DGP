@@ -34,6 +34,7 @@
 # 22. Background state added
 # 23. Don't have to add background so i delete it
 # 24. sound..... state
+# 25. sometimes get troubled with handle name.. why?
 # Made by Gunny　
 #################################################
 

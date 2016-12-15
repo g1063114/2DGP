@@ -35,6 +35,7 @@
 # 23. Don't have to add background so i delete it
 # 24. sound..... state
 # 25. sometimes get troubled with handle name.. why?
+# 26. when aircraft crushed, particle should be adjusted. 2016-15-15
 # Made by Gunny　
 #################################################
 

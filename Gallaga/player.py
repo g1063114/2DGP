@@ -1,3 +1,7 @@
+# player life should be added. 2016 - 12 - 15
+
+
+
 from pico2d import *
 
 

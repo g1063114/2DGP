@@ -1,3 +1,5 @@
+# boss added 2016-15-15
+
 from pico2d import*
 import random
 from bullet import Bullet
@@ -67,3 +69,8 @@ class Enemy:
     def stop(self):
         self.x = -100
         self.y = -100
+
+# Boss. Son of Enemy class.
+class Boss(Enemy):
+    # pos, dir
+    pass

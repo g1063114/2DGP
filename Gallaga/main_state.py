@@ -28,6 +28,7 @@
 #   draw_score.py added
 # 17. refectoring all these files! (2016-11-24~)
 # 18. error edit (2016-11-26)
+# ######################################## totally
 # 19. admit stage2 (2016-11-28)
 # 20. should add player frame
 # 21. Enemies bullet
@@ -36,7 +37,8 @@
 # 24. sound..... state
 # 25. sometimes get troubled with handle name.. why?
 # 26. when aircraft crushed, particle should be adjusted. 2016-15-15
-# 27. screen attacked when player was attacked
+# 27. screen shaking when player was attacked
+# 28. enemy animation should added
 # Made by Gunny　
 #################################################
 

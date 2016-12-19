@@ -38,7 +38,8 @@
 # 25. sometimes get troubled with handle name.. why?
 # 26. when aircraft crushed, particle should be adjusted. 2016-15-15
 # 27. screen shaking when player was attacked
-# 28. enemy animation should added
+# 28. enemy animation should be added
+# 29. boss animation should be added
 # Made by Gunny　
 #################################################
 

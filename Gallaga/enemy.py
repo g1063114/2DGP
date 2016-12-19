@@ -1,5 +1,6 @@
 # boss added 2016-12-15
 # enemy animation add 2016-12-18
+# boss animation added 2016-12-19
 
 from pico2d import*
 import random

@@ -1,5 +1,6 @@
 import game_framework
 import main_state
+import ranking_state
 from pico2d import *
 
 name = "TitleState"
@@ -29,6 +30,9 @@ def handle_events(frame_time):
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
                 #game_framework.change_state(main_state)
                 game_framework.change_state(main_state)
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
+                game_framework.change_state(ranking_state)
+
     pass
 
 

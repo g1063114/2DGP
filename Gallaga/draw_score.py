@@ -67,7 +67,7 @@ class ScoreDraw:
         self.third = int((input_score % 1000)/100)
 
         # 천의 자리
-        self.fourth = int((input_score & 10000)/1000)
+        self.fourth = int((input_score % 10000)/1000)
 
         # 만의 자리
         self.fifth = int(input_score/10000)
@@ -93,13 +93,13 @@ class ScoreDraw:
             self.number4_image.draw(100, 550)
         elif self.fifth is 5:
             self.number5_image.draw(100, 550)
-        elif self.fifth is 0:
+        elif self.fifth is 6:
             self.number6_image.draw(100, 550)
-        elif self.fifth is 0:
+        elif self.fifth is 7:
             self.number7_image.draw(100, 550)
-        elif self.fifth is 0:
+        elif self.fifth is 8:
             self.number8_image.draw(100, 550)
-        elif self.fifth is 0:
+        elif self.fifth is 9:
             self.number9_image.draw(100, 550)
 
 
@@ -116,13 +116,13 @@ class ScoreDraw:
             self.number4_image.draw(120, 550)
         elif self.fourth is 5:
             self.number5_image.draw(120, 550)
-        elif self.fourth is 0:
+        elif self.fourth is 6:
             self.number6_image.draw(120, 550)
-        elif self.fourth is 0:
+        elif self.fourth is 7:
             self.number7_image.draw(120, 550)
-        elif self.fourth is 0:
+        elif self.fourth is 8:
             self.number8_image.draw(120, 550)
-        elif self.fourth is 0:
+        elif self.fourth is 9:
             self.number9_image.draw(120, 550)
 
         # third
@@ -138,13 +138,13 @@ class ScoreDraw:
             self.number4_image.draw(140, 550)
         elif self.third is 5:
             self.number5_image.draw(140, 550)
-        elif self.third is 0:
+        elif self.third is 6:
             self.number6_image.draw(140, 550)
-        elif self.third is 0:
+        elif self.third is 7:
             self.number7_image.draw(140, 550)
-        elif self.third is 0:
+        elif self.third is 8:
             self.number8_image.draw(140, 550)
-        elif self.third is 0:
+        elif self.third is 9:
             self.number9_image.draw(140, 550)
 
         # second
@@ -160,13 +160,13 @@ class ScoreDraw:
             self.number4_image.draw(160, 550)
         elif self.second is 5:
             self.number5_image.draw(160, 550)
-        elif self.second is 0:
+        elif self.second is 6:
             self.number6_image.draw(160, 550)
-        elif self.second is 0:
+        elif self.second is 7:
             self.number7_image.draw(160, 550)
-        elif self.second is 0:
+        elif self.second is 8:
             self.number8_image.draw(160, 550)
-        elif self.second is 0:
+        elif self.second is 9:
             self.number9_image.draw(160, 550)
 
 
@@ -183,13 +183,13 @@ class ScoreDraw:
             self.number4_image.draw(180, 550)
         elif self.first is 5:
             self.number5_image.draw(180, 550)
-        elif self.first is 0:
+        elif self.first is 6:
             self.number6_image.draw(180, 550)
-        elif self.first is 0:
+        elif self.first is 7:
             self.number7_image.draw(180, 550)
-        elif self.first is 0:
+        elif self.first is 8:
             self.number8_image.draw(180, 550)
-        elif self.first is 0:
+        elif self.first is 9:
             self.number9_image.draw(180, 550)
 
 

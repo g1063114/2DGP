@@ -14,13 +14,20 @@ import random
 class Bullet:
     image = None
 
+    PIXEL_PER_KMETER = (10.0 / 0.5)         # 10 pixel 0.5km
+    RUN_SPEED_KMPH = 180000.0               # 180000km per hour
+    RUN_SPEED_KMPM = RUN_SPEED_KMPH / 60    # 3000km per min
+    RUN_SPEED_KMPS = RUN_SPEED_KMPM / 60    # 50km per sec
+    RUN_SPEED_PPS = RUN_SPEED_KMPS * PIXEL_PER_KMETER
+
+
     def __init__(self):
         self.x, self.y = -100, -30
-        self.shot_speed = 800
         self.shooting = False
         self.shoot_start = False
         self.shoot_dir = -1
         if Bullet.image == None:
+            # Bullet.image = load_image('resource/bullet_folder/fire.png')
             Bullet.image = load_image('resource/bullet_folder/fire.png')
 
     def update(self, frame_time, player_x):
@@ -32,14 +39,15 @@ class Bullet:
                 self.y = self.shoot_dir * 30
                 self.shooting = False
 
-            distance = self.shot_speed * frame_time
-            self.y += 1 * distance
+            distance = self.RUN_SPEED_PPS * frame_time
+            self.y += distance
 
     def draw(self):
         self.image.draw(self.x, self.y)
 
     def get_bb(self):
-        return self.x - 7, self.y - 16, self.x + 7, self.y + 16
+        # return self.x - 7, self.y - 16, self.x + 7, self.y + 16
+        return self.x - 6, self.y - 19, self.x + 6, self.y + 19
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())

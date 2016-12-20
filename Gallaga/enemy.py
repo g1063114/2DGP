@@ -10,14 +10,16 @@ from bullet import Bullet
 class Enemy:
     image = None
 
+    PIXEL_PER_KMETER = (10.0 / 0.5)  # 10 pixel 0.5km
+    RUN_SPEED_KMPH = 18000.0  # 18000km per hour
+    RUN_SPEED_KMPM = RUN_SPEED_KMPH / 60  # 300km per min
+    RUN_SPEED_KMPS = RUN_SPEED_KMPM / 60  # 5km per sec
+    RUN_SPEED_PPS = RUN_SPEED_KMPS * PIXEL_PER_KMETER
     LEFT_RUN, RIGHT_RUN, UP_RUN, DOWN_RUN, STAND = 0, 1, 2, 3, 4
 
     def __init__(self):
         self.x, self.y = 0, 0
-        self.move_speed = 50
-        # This! i have to check
-        self.arr_x, self.arr_y = random.randint(6, 20), random.randint(4, 8)
-        # self.arr_x, self.arr_y = 0, 0
+        self.arr_x, self.arr_y = 0, 0
         self.state = self.STAND
         self.dir_x = 1
         self.dir_y = 0
@@ -32,7 +34,7 @@ class Enemy:
         self.y = 600 - self.arr_y * 30
 
     def update(self, frame_time):
-        distance = self.move_speed * frame_time
+        distance = self.RUN_SPEED_PPS * frame_time
 
         if self.x < 800 - (self.arr_x) * 40:
             self.dir_x = +1
@@ -49,24 +51,8 @@ class Enemy:
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
-
     def handle_event(self, event):
-        if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LEFT):
-            if self.state in (self.STAND, self.RIGHT_RUN):
-                self.state = self.LEFT_RUN
-                self.dir = -1
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_RIGHT):
-            if self.state in (self.STAND, self.LEFT_RUN):
-                self.state = self.RIGHT_RUN
-                self.dir = 1
-        elif (event.type, event.key) == (SDL_KEYUP, SDLK_LEFT):
-            if self.state in (self.LEFT_RUN,):
-                self.state = self.STAND
-                self.dir = 0
-        elif (event.type, event.key) == (SDL_KEYUP, SDLK_RIGHT):
-            if self.state in (self.RIGHT_RUN,):
-                self.state = self.STAND
-                self.dir = 0
+        pass
 
     def stop(self):
         self.x = -100

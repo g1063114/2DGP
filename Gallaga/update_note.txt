@@ -1,0 +1,48 @@
+#################################################
+############# GALLAGA_REMAKEver #################
+# Start project in 2016-10-02
+# 1. make code layout (2016-10-02)
+# 2. add resource(player)
+# 3. add game_framework (2016.10.14)
+# 4. optimize1 game_framework (2016.10.17)
+# 5. enemy_setted (2016.10.20)
+# 6. enemy_tile think (2016.10.25)
+# 7. enemy_tile add (2016.10.27)
+# 8. bullet add(2016.10.30)
+# 9. collide check(2016-11-04~)
+# 10. rank.py added(2016-11-07)
+# 11. move while move (2016-11-08)
+# 12. player, enemy .py added (2016-11-14)
+#       main_state_test added working on this space!
+# 13. Framework well optimized
+#   ranking_state working well
+#   collide_well
+#   bullet_well
+#   (2016-11-15)
+# 14. Enemy starting attack! (2016-11-17~)
+#   attack....(2016-11-19)
+# 15. stage2.py added (2016-11-23)
+#     enemy can't attack yet...
+# 16. pass stage1 score to stage2
+#               (2016-11-23)   all-round ver
+#   draw_score.py added
+# 17. refectoring all these files! (2016-11-24~)
+# 18. error edit (2016-11-26)
+# ######################################## totally
+# 19. admit stage2 (2016-11-28)
+# 20. should add player frame
+# 21. Enemies bullet
+# 22. Background state added
+# 23. Don't have to add background so i delete it
+# 24. sound..... state
+# 25. sometimes get troubled with handle name.. why?
+# 26. when aircraft crushed, particle should be adjusted. 2016-15-15
+# 27. screen shaking when player was attacked
+# 28. enemy animation should be added
+# 29. boss animation should be added
+# ############################################################
+# 30. upside down ALLLLLL things
+# 죽을때만 애니메이션 추가하는건 어떨까? 빙그르르 돌면서 숨지는거지.
+# 1000점 넘으면 목숨 1개 추가됨 ㅎㅎ
+# Made by Gunny　
+##############################################################

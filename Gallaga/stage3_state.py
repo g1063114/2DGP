@@ -4,9 +4,9 @@ from player import Player
 from enemy import Enemy
 from bullet import Bullet, EnemyBullet
 import ranking_state
-import stage2Point5_state
+import stage3Point5_state
 from draw_score import ScoreDraw
-from background import Background2
+from background import Background3
 from player_life import Player_life
 
 
@@ -36,8 +36,7 @@ def create_world():
 
     player_life = Player_life()
 
-
-    scrolling_background = Background2(800,600)
+    scrolling_background = Background3(800,600)
 
     draw_score = ScoreDraw()
 
@@ -84,7 +83,6 @@ def get_life(input):
     global life
     life = input
     print("life : ", life)
-
 
 def enter():
     global back_ground, font
@@ -175,9 +173,9 @@ def handle_events(frame_time):
                 if goto_next_stage is True:
                     # next_stage_score = score
                     # get_stage1_score(score)
-                    stage2Point5_state.get_life(life)
-                    stage2Point5_state.get_score(score)
-                    game_framework.change_state(stage2Point5_state)
+                    stage3Point5_state.get_life(life)
+                    stage3Point5_state.get_score(score)
+                    game_framework.change_state(stage3Point5_state)
                 else:
                     player_bullet.handle_event(event)
             else:

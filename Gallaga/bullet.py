@@ -65,26 +65,50 @@ class Bullet:
 
 
 
-class EnemyBullet(Bullet):
-
+class EnemyBullet:
     image = None
 
-    def __init__(self):
-        self.x, self.y = 100, 700
+    PIXEL_PER_KMETER = (10.0 / 0.5)         # 10 pixel 0.5km
+    RUN_SPEED_KMPH = 108000.0                # 108000km per hour
+    RUN_SPEED_KMPM = RUN_SPEED_KMPH / 60    # 1800km per min
+    RUN_SPEED_KMPS = RUN_SPEED_KMPM / 60    # 30km per sec
+    RUN_SPEED_PPS = RUN_SPEED_KMPS * PIXEL_PER_KMETER
 
-        # 500ms ~ 2000ms shooting time
-        self.shooting_time = random.randint(500, 2000)
-        # self.shooting
-        if EnemyBullet.image == None:   # 13 * 37의 이미지
+
+    def __init__(self):
+        self.x, self.y = -100, 650
+        self.shooting = False
+        self.shoot_start = False
+        self.shoot_dir = -1
+        if EnemyBullet.image == None:
             EnemyBullet.image = load_image('resource/bullet_folder/enemy_bullet.png')
 
-    def update(self, frame_time, enemy_x):
-        pass
+    def update(self, frame_time, player_x, player_y):
+        if self.shooting is True:
+            if self.shoot_start is True:
+                self.x = player_x
+                self.y = player_y
+                self.shoot_start = False
+            if self.y >= 630:
+                self.y = self.shoot_dir * 30
+                self.shooting = False
 
-    def timer(self):
-        pass
+            distance = self.RUN_SPEED_PPS * frame_time
+            self.y -= distance
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
 
     def get_bb(self):
-        return self.x - 6, self.y - 18, self.x + 6, self.y - 18
+        # return self.x - 7, self.y - 16, self.x + 7, self.y + 16
+        return self.x - 6, self.y - 19, self.x + 6, self.y + 19
 
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
+    def handle_event(self, event):
+        pass
+
+    def stop(self):
+        self.shooting = False
+        self.y = -30

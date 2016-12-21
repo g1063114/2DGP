@@ -4,11 +4,11 @@ from player import Player
 from enemy import Enemy
 from bullet import Bullet, EnemyBullet
 import ranking_state
-import stage2Point5_state
+import stage2_state
 from draw_score import ScoreDraw
-from background import Background2
 from player_life import Player_life
 
+from background import Background
 
 
 name = "MainState"
@@ -17,9 +17,9 @@ enemies = None
 player_bullet = None
 enemy_bullets = None
 back_ground = None
-score = 0
 player_life = None
 life = 0
+score = 0
 enemy_kill_count = 0
 font = None
 score_data = None
@@ -36,8 +36,7 @@ def create_world():
 
     player_life = Player_life()
 
-
-    scrolling_background = Background2(800,600)
+    scrolling_background = Background(800,600)
 
     draw_score = ScoreDraw()
 
@@ -79,6 +78,7 @@ def destroy_world():
 def get_score(input):
     global score
     score = input
+
 
 def get_life(input):
     global life
@@ -175,9 +175,9 @@ def handle_events(frame_time):
                 if goto_next_stage is True:
                     # next_stage_score = score
                     # get_stage1_score(score)
-                    stage2Point5_state.get_life(life)
-                    stage2Point5_state.get_score(score)
-                    game_framework.change_state(stage2Point5_state)
+                    stage2_state.get_life(life)
+                    stage2_state.get_score(score)
+                    game_framework.change_state(stage2_state)
                 else:
                     player_bullet.handle_event(event)
             else:
@@ -192,7 +192,6 @@ def update(frame_time):
     global player_life
 
     player_life.update(frame_time, life)
-
 
     scrolling_background.update(frame_time)
 
@@ -236,12 +235,13 @@ def draw(frame_time):
     # global draw_score
     clear_canvas()
     # don't change
+
+
     # back_ground.draw()
     scrolling_background.draw()
     # ------------------------------------------------------
     # font.draw(50, 550, 'score: %d' %score)
     player_life.draw()
-
     # start
     player.draw()
     # player.draw_bb()
@@ -259,8 +259,7 @@ def draw(frame_time):
     #    bullets.draw()
 
     if goto_next_stage is True:
-        font.draw(200, 330, 'Get Ready For the Boss!!')
-        font.draw(200, 300, 'Press SpaceBar to go to Boss Room')
+        font.draw(200, 300, 'Press SpaceBar to go to NextStage!!')
         player.go_next_stage()
         # print("Press SpaceBar to go to NextStage!!")
 

@@ -4,18 +4,18 @@ from player import Player
 from enemy import Enemy
 from bullet import Bullet, EnemyBullet
 import ranking_state
-import stage2Point5_state
 from draw_score import ScoreDraw
-from background import Background2
 from player_life import Player_life
 
 
 
 name = "MainState"
+move_scale = 0.5
 player = None
 enemies = None
 player_bullet = None
 enemy_bullets = None
+# enemy_bullet = None
 back_ground = None
 score = 0
 player_life = None
@@ -24,21 +24,16 @@ enemy_kill_count = 0
 font = None
 score_data = None
 goto_next_stage = False
+pass_score = None
 draw_score = None
-scrolling_background = None
 
 # Game object class here
 def create_world():
     global player, enemies, player_bullet, enemy_bullets
     global draw_score
-    global scrolling_background
     global player_life
 
     player_life = Player_life()
-
-
-    scrolling_background = Background2(800,600)
-
     draw_score = ScoreDraw()
 
     player = Player()
@@ -60,15 +55,12 @@ def create_world():
     player_bullet = Bullet()
 
 
-
 def destroy_world():
     global player, enemies, player_bullet, enemy_bullets, font, push_next_stage_score
     global draw_score
-    global scrolling_background
     global player_life
 
     del(player_life)
-    del(scrolling_background)
     del(player)
     del(enemies)
     del(player_bullet)
@@ -96,10 +88,7 @@ def enter():
 
 
 def exit():
-    destroy_world()
-
-def save_score():
-    global score_data, score
+    global score_data, score, font
 
     f = open('resource/data_file.txt', 'r')
     score_data = json.load(f)
@@ -113,6 +102,7 @@ def save_score():
     json.dump(score_data, f)
     f.close()
 
+    destroy_world()
 
 # background image
 class backGround:
@@ -120,8 +110,8 @@ class backGround:
         # not yet!
         self.pagePoint = 3       # scroll the page
         self.pagePoint2 = 1
-        self.image = load_image('resource/background_folder/background.png')
-        self.image2 = load_image('resource/background_folder/background.png')
+        self.image = load_image('resource/background_folder/background3.png')
+        self.image2 = load_image('resource/background_folder/background3.png')
     def draw(self):
         self.image.draw(400, 300 * self.pagePoint);
         self.image2.draw(400, 300 * self.pagePoint2);
@@ -156,28 +146,28 @@ def collide(a, b):
     if bottom_a > top_b : return False
     return True
 
+def Pass_score():
+    return score
+    pass
 
 def handle_events(frame_time):
     global player_bullet
     global goto_next_stage
     global next_stage_score
+    global pass_score
     events = get_events()
     # start var.
     for event in events:
         if event.type == SDL_QUIT:
-            save_score()
             game_framework.quit()
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-                save_score()
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
                 if goto_next_stage is True:
                     # next_stage_score = score
                     # get_stage1_score(score)
-                    stage2Point5_state.get_life(life)
-                    stage2Point5_state.get_score(score)
-                    game_framework.change_state(stage2Point5_state)
+                    pass
                 else:
                     player_bullet.handle_event(event)
             else:
@@ -192,9 +182,6 @@ def update(frame_time):
     global player_life
 
     player_life.update(frame_time, life)
-
-
-    scrolling_background.update(frame_time)
 
     player.update(frame_time)
     player_bullet.update(frame_time, player.x)
@@ -236,8 +223,8 @@ def draw(frame_time):
     # global draw_score
     clear_canvas()
     # don't change
-    # back_ground.draw()
-    scrolling_background.draw()
+    back_ground.draw()
+
     # ------------------------------------------------------
     # font.draw(50, 550, 'score: %d' %score)
     player_life.draw()
@@ -259,9 +246,9 @@ def draw(frame_time):
     #    bullets.draw()
 
     if goto_next_stage is True:
-        font.draw(200, 330, 'Get Ready For the Boss!!')
-        font.draw(200, 300, 'Press SpaceBar to go to Boss Room')
+        font.draw(200, 330, 'YOU WIN!')
         player.go_next_stage()
+
         # print("Press SpaceBar to go to NextStage!!")
 
     update_canvas()

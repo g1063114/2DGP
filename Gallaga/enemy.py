@@ -15,14 +15,14 @@ class Enemy:
     RUN_SPEED_KMPM = RUN_SPEED_KMPH / 60  # 300km per min
     RUN_SPEED_KMPS = RUN_SPEED_KMPM / 60  # 5km per sec
     RUN_SPEED_PPS = RUN_SPEED_KMPS * PIXEL_PER_KMETER
-    LEFT_RUN, RIGHT_RUN, UP_RUN, DOWN_RUN, STAND = 0, 1, 2, 3, 4
 
     def __init__(self):
         self.x, self.y = 0, 0
         self.arr_x, self.arr_y = 0, 0
-        self.state = self.STAND
         self.dir_x = 1
         self.dir_y = 0
+        self.is_dead = False
+        self.shooting = False
         self.image = load_image('resource/aircraft_folder/enemyBlack.png')
         self.x = 800 - self.arr_x * 40
         self.y = 600 - self.arr_y * 30
@@ -33,9 +33,11 @@ class Enemy:
         self.x = 800 - self.arr_x * 40
         self.y = 600 - self.arr_y * 30
 
+    def set_shooting(self,input):   #input = True or False
+        self.shooting = input
+
     def update(self, frame_time):
         distance = self.RUN_SPEED_PPS * frame_time
-
         if self.x < 800 - (self.arr_x) * 40:
             self.dir_x = +1
         elif self.x >= 800 - (self.arr_x - 4) * 40:
@@ -55,6 +57,7 @@ class Enemy:
         pass
 
     def stop(self):
+        self.is_dead = True
         self.x = -100
         self.y = -100
 

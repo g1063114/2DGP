@@ -8,6 +8,11 @@ from pico2d import *
 class Player:
     image = None
 
+    damaged_image1 = None
+    damaged_image2 = None
+    damaged_image3 = None
+
+
     PIXEL_PER_KMETER = (10.0 / 0.5)         # 10 pixel 0.5km
     RUN_SPEED_KMPH = 36000.0                # 36000km per hour
     RUN_SPEED_KMPM = RUN_SPEED_KMPH / 60    # 600km per min
@@ -25,11 +30,17 @@ class Player:
         self.next_stage = False
         self.dir = 0        # 0:stand 1:right 2:left
         self.state = self.STAND
+        self.live = True
         self.shooting = False
         # frame added
-        self.frame = 0
+        self.frame = -1
 
         self.image = load_image('resource/aircraft_folder/player.png')
+        self.damaged_image = load_image('resource/aircraft_folder/player_damage_ani.png')
+
+    def you_dead_huh(self, input):
+        self.live = False
+        pass
 
     def update(self, frame_time):
 
@@ -48,7 +59,15 @@ class Player:
         pass
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        if self.live is True:
+            self.image.draw(self.x, self.y)
+        elif self.live is False:
+            print("격추 이미지 호출")
+            self.damaged_image.clip_draw(self.frame * 40, 0, 40, 30, self.x, self.y)
+            if self.frame is 3:
+                self.frame = -1
+                self.live = True
+                print("격추 이미지 호출 끝")
 
     def get_bb(self):
         #이미지 크기는 40*30

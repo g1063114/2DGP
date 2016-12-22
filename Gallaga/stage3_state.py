@@ -1,39 +1,41 @@
 from pico2d import *
 import game_framework
 from player import Player
-from enemy import Enemy
+from enemy import Enemy3
 from bullet import Bullet, EnemyBullet
-import ranking_state
 import stage3Point5_state
 from draw_score import ScoreDraw
 from background import Background3
 from player_life import Player_life
+import threading
+import random
+import gameover_state
 
 
 
 name = "MainState"
 player = None
+player_life = None
+life = 3
 enemies = None
 player_bullet = None
 enemy_bullets = None
-back_ground = None
 score = 0
-player_life = None
-life = 0
 enemy_kill_count = 0
 font = None
 score_data = None
 goto_next_stage = False
 draw_score = None
 scrolling_background = None
+enemy_shoot_ok = None
 
-# Game object class here
 def create_world():
     global player, enemies, player_bullet, enemy_bullets
     global draw_score
     global scrolling_background
     global player_life
 
+    Timer_function(0)
     player_life = Player_life()
 
     scrolling_background = Background3(800,600)
@@ -43,37 +45,17 @@ def create_world():
     player = Player()
 
     # Generate enemies 60!
-    enemies = [Enemy() for i in range(60)]
+    enemies = [Enemy3() for i in range(60)]
 
-    x = 6
-    y = 4
     i = 0
-    # set location!
     for y in range(4, 8):
         for x in range(6, 21):
-            # print("x,y :: ", x," ", y)
             enemies[i].set_location(x, y)
             i += 1
 
 
     player_bullet = Bullet()
-
-
-
-def destroy_world():
-    global player, enemies, player_bullet, enemy_bullets, font, push_next_stage_score
-    global draw_score
-    global scrolling_background
-    global player_life
-
-    del(player_life)
-    del(scrolling_background)
-    del(player)
-    del(enemies)
-    del(player_bullet)
-    del (enemy_bullets)
-    del (font)
-    del (draw_score)
+    enemy_bullets = [EnemyBullet() for i in range(60)]
 
 def get_score(input):
     global score
@@ -84,10 +66,59 @@ def get_life(input):
     life = input
     print("life : ", life)
 
+
+
+def Timer_function(count):
+    global enemy_shoot_ok
+    global timer
+
+    count += 1
+    timer = threading.Timer(0.15, Timer_function, args=[count])
+    #print("타이머 호출")
+    # 여기에 적들이 총알 쏘게 해야함.
+    enemy_shoot_ok = True
+    if count<5000 :
+        timer.start()
+
+def frame_timer_function(count):
+    global timer
+    global player
+
+    player.frame += 1
+    count += 1
+    timer = threading.Timer(0.3, frame_timer_function, args=[count])
+    print("타이머 호출")
+    # 여기에 적들이 총알 쏘게 해야함.
+    if count<4 :
+        timer.start()
+
+
+def destroy_world():
+    global player, enemies, player_bullet, enemy_bullets, font
+    global draw_score
+    global scrolling_background
+    global player_life
+    global timer
+
+    for bullet in enemy_bullets:
+        if bullet.shooting is True:
+            bullet.shooting = False
+
+    timer.cancel()
+    del (player_life)
+    del (scrolling_background)
+    del (player)
+    del (enemies)
+    del (player_bullet)
+    del (enemy_bullets)
+    del (font)
+    del (draw_score)
+
+
+
 def enter():
     global back_ground, font
-    back_ground = backGround()
-    font = load_font('resource/ENCR10B.TTF')
+    font = load_font('resource/kenvector_future.TTF')
 
     # new added
     create_world()
@@ -112,30 +143,6 @@ def save_score():
     f.close()
 
 
-# background image
-class backGround:
-    def __init__(self):
-        # not yet!
-        self.pagePoint = 3       # scroll the page
-        self.pagePoint2 = 1
-        self.image = load_image('resource/background_folder/background.png')
-        self.image2 = load_image('resource/background_folder/background.png')
-    def draw(self):
-        self.image.draw(400, 300 * self.pagePoint);
-        self.image2.draw(400, 300 * self.pagePoint2);
-    def update(self):
-        if self.pagePoint > -1:
-            self.pagePoint -= 0.001
-        else:
-            self.pagePoint = 3
-
-        if self.pagePoint2 > -1:
-            self.pagePoint2 -= 0.001
-        else:
-            self.pagePoint2 = 3
-        pass
-    pass
-
 
 def pause():
     pass
@@ -159,9 +166,13 @@ def handle_events(frame_time):
     global player_bullet
     global goto_next_stage
     global next_stage_score
+    global timer
     events = get_events()
     # start var.
     for event in events:
+        if life is 0:
+            game_framework.push_state(gameover_state)
+
         if event.type == SDL_QUIT:
             save_score()
             game_framework.quit()
@@ -178,6 +189,11 @@ def handle_events(frame_time):
                     game_framework.change_state(stage3Point5_state)
                 else:
                     player_bullet.handle_event(event)
+                    player.shooting_sound.play()
+            # ranking state
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_c):
+                timer.cancel()
+                goto_next_stage = True
             else:
                 player.handle_event(event)
 
@@ -188,78 +204,85 @@ def update(frame_time):
     global goto_next_stage
     global draw_score
     global player_life
-
-    player_life.update(frame_time, life)
-
-
+    global enemy_shoot_ok
+    global life
+    global timer
     scrolling_background.update(frame_time)
 
     player.update(frame_time)
     player_bullet.update(frame_time, player.x)
-
+    player_life.update(frame_time, life)
     #for enemy in enemies:
     #    for bullets in enemy_bullets:
     #        bullets.update(frame_time, enemy.x)
 
-    back_ground.update()
     draw_score.update(frame_time, score)
+
+    while True:
+        select_enemy = random.randrange(1, 60)
+        if enemies[select_enemy].is_dead is False:
+            break
+
+
+    if enemy_shoot_ok is True:
+        enemies[select_enemy].set_shooting(True)
+        enemy_bullets[select_enemy].shooting = True
+        enemy_bullets[select_enemy].shoot_start = True
+        # enemy_bullets[select_enemy].shooting_sound.play()
+        enemy_bullets[select_enemy].update(frame_time, enemies[select_enemy].x, enemies[select_enemy].y)
+
+        print("에너미 슛~, ", select_enemy)
+        enemy_shoot_ok = False
+
+    i = 0
+    for bullet in enemy_bullets:
+        if bullet.shooting is True:
+            bullet.update(frame_time, enemies[i].x, enemies[i].y)
+            i += 1
 
     for enemy in enemies:
         enemy.update(frame_time)
+
     for enemy in enemies:
         if collide(enemy, player_bullet):
             print("collision")
             player_bullet.stop()
+            enemy.shooting = False
+            enemy.shoot_start = False
             enemy.stop()
             score = score + 100
             print("score : ", score)
             enemy_kill_count += 1
             print("kill_count : ", enemy_kill_count)
-            # 임시 테스트용 - 원래는 40
-            if enemy_kill_count == 5:
+            # 임시 테스트용 - 원래는 60
+            if enemy_kill_count == 40:
+                timer.cancel()
                 goto_next_stage = True
                 pass
 
-
-#    for Ebullet in enemy_bullet:
-#        if collide(player, Ebullet):
-#            pass
-
-
-
-
-
+    for bullet in enemy_bullets:
+        if collide(player, bullet):
+            bullet.stop()
+            print("격추됬다 넌 사망했따")
+            player.you_dead_huh(True)
+            frame_timer_function(0)
+            life -= 1
 
 def draw(frame_time):
-    # global draw_score
     clear_canvas()
-    # don't change
-    # back_ground.draw()
     scrolling_background.draw()
-    # ------------------------------------------------------
-    # font.draw(50, 550, 'score: %d' %score)
     player_life.draw()
-
-    # start
     player.draw()
-    # player.draw_bb()
-    player_bullet.draw()
-    # player_bullet.draw_bb()
-
     draw_score.draw()
-
-    # enemies
     for enemy in enemies:
         enemy.draw()
-        # enemy.draw_bb()
-    # enemies bullet
-    #for bullets in enemy_bullets:
-    #    bullets.draw()
+    for bullet in enemy_bullets:
+        bullet.draw()
+    player_bullet.draw()
 
     if goto_next_stage is True:
-        font.draw(200, 330, 'Get Ready For the Boss!!')
-        font.draw(200, 300, 'Press SpaceBar to go to Boss Room')
+        font.draw(200, 330, 'Ready  For  the  Boss!!', (255, 255, 255))
+        font.draw(200, 300, 'Press  SpaceBar  to  go  to  Boss  Room', (255, 0, 0))
         player.go_next_stage()
-        # print("Press SpaceBar to go to NextStage!!")
 
     update_canvas()

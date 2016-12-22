@@ -12,9 +12,9 @@ font = None
 
 def enter():
     global image
-    image = load_image('resource/background_folder/blackboard.png')
+    image = load_image('resource/background_folder/background_rank.png')
     global font
-    font = load_font('resource/ENCR10B.TTF', 40)
+    font = load_font('resource/kenvector_future.TTF', 40)
 
 def exit():
     global image

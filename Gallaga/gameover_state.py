@@ -10,10 +10,10 @@ bgm = None
 
 def enter():
     global image
-    image = load_image('resource/background_folder/title.png')
+    image = load_image('resource/background_folder/gameover.png')
     global bgm
 
-    bgm = load_music('resource/sound/bgm.mp3')
+    bgm = load_music('resource/sound/over_bgm.mp3')
     bgm.set_volume(40)
     bgm.repeat_play()
 

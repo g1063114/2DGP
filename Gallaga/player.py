@@ -4,14 +4,12 @@
 
 from pico2d import *
 
-
 class Player:
     image = None
+    shooting_sound = None
 
-    damaged_image1 = None
-    damaged_image2 = None
-    damaged_image3 = None
-
+    damaged_image = None
+    crush_sound = None
 
     PIXEL_PER_KMETER = (10.0 / 0.5)         # 10 pixel 0.5km
     RUN_SPEED_KMPH = 36000.0                # 36000km per hour
@@ -35,12 +33,20 @@ class Player:
         # frame added
         self.frame = -1
 
+        self.shooting_sound = load_wav('resource/sound/player_shooting.wav')
+        self.shooting_sound.set_volume(128)
+
+        self.crush_sound = load_wav('resource/sound/break.wav')
+        self.crush_sound.set_volume(128)
+
         self.image = load_image('resource/aircraft_folder/player.png')
         self.damaged_image = load_image('resource/aircraft_folder/player_damage_ani.png')
 
     def you_dead_huh(self, input):
+        self.crush_sound.play()
         self.live = False
         pass
+
 
     def update(self, frame_time):
 
@@ -93,6 +99,5 @@ class Player:
             if self.state in (self.MOVE_RIGHT,):
                 self.state = self.STAND
                 self.dir = 0
-
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
             self.shooting = True

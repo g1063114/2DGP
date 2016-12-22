@@ -173,6 +173,7 @@ def handle_events(frame_time):
     events = get_events()
     # start var.
     if life is 0:
+        gameover_state.get_score(score)
         game_framework.push_state(gameover_state)
     for event in events:
         if event.type == SDL_QUIT:
@@ -187,6 +188,7 @@ def handle_events(frame_time):
                     # next_stage_score = score
                     # get_stage1_score(score)
                     score += 1000
+                    win_state.get_score(score)
                     game_framework.change_state(win_state)
                 else:
                     player_bullet.handle_event(event)

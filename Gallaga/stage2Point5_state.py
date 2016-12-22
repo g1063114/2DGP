@@ -172,6 +172,7 @@ def handle_events(frame_time):
     events = get_events()
     # start var.
     if life is 0:
+        gameover_state.get_score(score)
         game_framework.push_state(gameover_state)
     for event in events:
         if event.type == SDL_QUIT:

@@ -6,6 +6,27 @@ from pico2d import *
 name = "TitleState"
 image = None
 bgm = None
+score_data = None
+
+def get_score(input):
+    global score
+    score = input
+
+def save_score():
+    global score_data, score
+
+    f = open('resource/data_file.txt', 'r')
+    score_data = json.load(f)
+    f.close()
+
+    score_data.append({'score':score})
+
+    print(score_data)
+
+    f = open('resource/data_file.txt', 'w')
+    json.dump(score_data, f)
+    f.close()
+
 
 
 def enter():

@@ -1,0 +1,30 @@
+Thu Dec 22 15:02:58 2016 +0900 setupfile_added
+Thu Dec 22 13:17:00 2016 +0900 Finally i've done! HELL YEAH
+Wed Dec 21 23:00:18 2016 +0900 most resource adjusted. refectory all .py files
+Tue Dec 20 19:40:05 2016 +0900 refectory all things. backGround revive
+Mon Dec 19 23:24:10 2016 +0900 boss animation added
+Sun Dec 18 22:30:59 2016 +0900 enemy animation added
+Sat Dec 17 23:13:27 2016 +0900 screen
+Thu Dec 15 22:04:08 2016 +0900 added boss, player life
+Wed Dec 14 21:21:56 2016 +0900 Buggggg...gonna get rid off this
+Tue Dec 13 19:18:41 2016 +0900 sound_ modify
+Mon Dec 12 23:09:57 2016 +0900 sound.py added
+Sun Dec 11 23:52:43 2016 +0900 state3_state.py updated
+Sat Dec 10 23:39:18 2016 +0900 state3_state.py added
+Fri Dec 9 22:19:32 2016 +0900 delete backGround
+Tue Dec 6 23:58:53 2016 +0900 backGround added
+Sat Dec 3 02:30:54 2016 +0900 player frame
+Thu Dec 1 23:43:20 2016 +0900 Merge branch 'master' of https://github.com/geonoh/2DGP
+Thu Dec 1 23:42:29 2016 +0900 player animation
+Tue Nov 29 14:08:44 2016 +0900 test/test.txt
+Mon Nov 28 23:59:20 2016 +0900 admit stage2 score
+Sat Nov 26 23:17:10 2016 +0900 bug_get
+Thu Nov 24 17:11:32 2016 +0900 draw_score.py well done!
+Thu Nov 24 11:32:34 2016 +0900 REFACTORY_ALL_THESE_FILES!
+Wed Nov 23 10:54:14 2016 +0900 number added
+Wed Nov 23 00:56:11 2016 +0900 enter_stage2_state added. enemy attack not yet.....
+Mon Nov 21 01:13:24 2016 +0900 enemy location reset, but fail. and enemy attack............
+Sun Nov 20 01:36:51 2016 +0900 ADD_ enemy bullet.... but don't know how to apply timer!!!!!
+Sat Nov 19 22:43:01 2016 +0900 enemy attack.....
+Fri Nov 18 01:12:36 2016 +0900 Enemy attck_ little
+Tue Nov 15 17:11:14 2016 +0900 All optimized and perfectly collide. next would be added sound etc
